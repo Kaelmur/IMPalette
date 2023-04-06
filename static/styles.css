@@ -1,0 +1,75 @@
+html,body
+{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
+}
+
+.navbar {
+    background-color: black;
+}
+.form-group {
+    padding-bottom: 30px;
+}
+#submit {
+    display: block;
+}
+.navbar-brand {
+    color: white;
+    font-family: 'Alkatra', cursive;
+}
+.form {
+    padding-top: 70px;
+    padding-left: 150px;
+}
+.colored-section {
+    height: 500px;
+}
+.donthave {
+    background-image: url('https://images.unsplash.com/photo-1462332420958-a05d1e002413?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2107&q=80');
+    background-size: cover;
+}
+.palette {
+    display: inline-block;
+}
+.forming {
+    height: 350px;
+    background-color: black;
+    color: white;
+    font-family: 'Inconsolata', monospace;
+}
+#file {
+    width: 500px;
+    color: white;
+    background-color: black;
+}
+.card-body {
+    height: 120px;
+}
+.pal {
+    background-color: white;
+    height: 700px;
+}
+.footer {
+    background-color: black;
+    padding: 1% 1% 1% 0;
+    text-align: center;
+    color: white;
+    font-family: 'Alkatra', cursive;
+}
+.h1 {
+    text-align: center;
+    font-family: 'Inconsolata', monospace;
+}
+.h4 {
+    padding-top: 15px;
+}
+.bi-github {
+    color: white;
+    font-size: 25px;
+}
+.text-body-secondary {
+    font-family: 'Inconsolata', monospace;
+}
