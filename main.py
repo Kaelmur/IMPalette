@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, request
+from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap5
 import numpy as np
 from PIL import Image, ImageOps
@@ -6,18 +6,34 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import RadioField, SubmitField
 import os
-from werkzeug.utils import secure_filename
+from flask_sqlalchemy import SQLAlchemy
+from base64 import b64encode
+from io import BytesIO
+
 
 app = Flask(__name__)
 bootstrap = Bootstrap5(app)
 app.config['SECRET_KEY'] = "fggfhgfghfbvhghfgg"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///img.db"
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
+db = SQLAlchemy(app)
 
 
 class ImageForm(FlaskForm):
     file = FileField("Select image", validators=[FileRequired(), FileAllowed(['jpg', 'png'], "Images only!")])
     code = RadioField("Select color code: ", choices=["Hex", "RGB"])
     submit = SubmitField("Submit")
+
+
+class File(db.Model):
+    __tablename__ = "images"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(150), nullable=False)
+    image = db.Column(db.LargeBinary)
+
+
+with app.app_context():
+    db.create_all()
 
 
 def rgb_to_hex(rgb):
@@ -69,16 +85,19 @@ def give_most_color(file_path, code):
 def home():
     form = ImageForm()
     if form.validate_on_submit():
-        file = request.files['file']
-        filename = secure_filename(file.filename)
+        image = File()
+        image.image = request.files['file'].read()
+        image.name = request.files['file'].filename
         color_code = form.code.data
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        session['uploaded_img_file_path'] = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        img_file_path = session.get('uploaded_img_file_path', None)
-        colors = give_most_color(file.stream, color_code)
+        db.session.add(image)
+        db.session.commit()
+        img_file = File.query.filter_by(name=image.name).first()
+        image_f = BytesIO(img_file.image)
+        mg = b64encode(img_file.image).decode("utf-8")
+        colors = give_most_color(image_f, color_code)
         return render_template('index.html',
                                colors_list=colors,
-                               code=color_code, form=form, image=img_file_path, file=filename)
+                               code=color_code, form=form, image=image_f, file=mg)
     return render_template('index.html', form=form)
 
 
