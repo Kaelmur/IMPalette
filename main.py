@@ -71,7 +71,7 @@ def give_most_color(file_path, code):
     values = list(converted_dict.keys())
     colors_10 = values[0:12]
 
-    if code == 'hex':
+    if code == 'Hex':
         hex_list = []
         for key in colors_10:
             hex_code = rgb_to_hex(key)
