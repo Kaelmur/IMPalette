@@ -42,7 +42,7 @@
 	 <h1 class="h1">Colors</h1>
 	{% for i in range(colors_list|length): %}
 	 <div class="card" style="width: 18rem;display: inline-block;text-align: center;margin-left: 25px;margin-top: 25px;margin-bottom: 25px;">
-		 {% if code != 'hex': %}
+		 {% if code != 'Hex': %}
   <div class="card-body" style="background-color: rgb{{ colors_list[i] }};"></div>
 	<div class="card-footer text-body-secondary">
 		{{i+1}}:  rgb{{colors_list[i]}}
