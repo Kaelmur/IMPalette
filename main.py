@@ -13,8 +13,8 @@ from io import BytesIO
 
 app = Flask(__name__)
 bootstrap = Bootstrap5(app)
-app.config['SECRET_KEY'] = "fggfhgfghfbvhghfgg"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///img.db"
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URI")
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
 db = SQLAlchemy(app)
 
